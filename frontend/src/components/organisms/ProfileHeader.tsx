@@ -28,7 +28,7 @@ export function ProfileHeader({ user, onUpdate }: Props) {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-soft p-6 sm:p-8">
+    <div className="bg-card rounded-2xl border border-border-subtle shadow-soft p-6 sm:p-8">
       <div className="flex items-start gap-5">
         <Avatar src={user.avatar} alt={user.name} size="xl" />
         <div className="flex-1 min-w-0">
@@ -59,20 +59,20 @@ export function ProfileHeader({ user, onUpdate }: Props) {
             <>
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900">{user.name}</h2>
-                  <p className="text-sm text-slate-400 mt-0.5">{user.email}</p>
+                  <h2 className="text-xl font-bold text-fg">{user.name}</h2>
+                  <p className="text-sm text-fg-subtle mt-0.5">{user.email}</p>
                 </div>
                 <Button variant="secondary" size="sm" onClick={() => setEditing(true)}>
                   Edit Profile
                 </Button>
               </div>
               {user.bio && (
-                <p className="text-sm text-slate-600 mt-3 leading-relaxed max-w-lg">{user.bio}</p>
+                <p className="text-sm text-fg-muted mt-3 leading-relaxed max-w-lg">{user.bio}</p>
               )}
               <div className="mt-4 flex items-center gap-6">
                 <div>
-                  <span className="text-xl font-bold text-slate-900">{user._count?.memberships ?? 0}</span>
-                  <span className="text-sm text-slate-400 ml-1.5">Marketplaces joined</span>
+                  <span className="text-xl font-bold text-fg">{user._count?.memberships ?? 0}</span>
+                  <span className="text-sm text-fg-subtle ml-1.5">Marketplaces joined</span>
                 </div>
               </div>
             </>

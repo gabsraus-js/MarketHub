@@ -28,14 +28,14 @@ export function Avatar({ src, alt = '', size = 'md', fallback, className = '' }:
       <img
         src={src}
         alt={alt}
-        className={`${sizeClass} rounded-full object-cover ring-2 ring-white shadow-soft ${className}`}
+        className={`${sizeClass} rounded-full object-cover ring-2 ring-card shadow-soft ${className}`}
       />
     )
   }
 
   return (
     <div
-      className={`${sizeClass} rounded-full bg-gradient-to-br from-primary-400 to-violet-500 flex items-center justify-center text-white font-semibold ring-2 ring-white shadow-soft ${className}`}
+      className={`${sizeClass} rounded-full bg-gradient-to-br from-primary to-violet-500 flex items-center justify-center text-white font-semibold ring-2 ring-card shadow-soft ${className}`}
     >
       {initials || '?'}
     </div>

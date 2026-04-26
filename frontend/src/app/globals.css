@@ -3,13 +3,46 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-primary:        99 102 241;   /* indigo-500 */
+    --color-primary-hover:  79  70 229;   /* indigo-600 */
+    --color-primary-subtle: 238 242 255;  /* indigo-50  */
+    --color-primary-fg:     255 255 255;
+
+    --color-bg:             248 250 252;  /* slate-50  */
+    --color-card:           255 255 255;  /* white     */
+    --color-card-raised:    248 250 252;  /* slate-50  */
+    --color-border:         226 232 240;  /* slate-200 */
+    --color-border-subtle:  241 245 249;  /* slate-100 */
+
+    --color-fg:             15  23  42;   /* slate-900 */
+    --color-fg-muted:       100 116 139;  /* slate-500 */
+    --color-fg-subtle:      148 163 184;  /* slate-400 */
+  }
+
+  .dark {
+    --color-primary:        129 140 248;  /* indigo-400 */
+    --color-primary-hover:   99 102 241;  /* indigo-500 */
+    --color-primary-subtle:  30  27  75;  /* indigo-950 */
+    --color-primary-fg:     255 255 255;
+
+    --color-bg:               2   6  23;  /* slate-950 */
+    --color-card:            15  23  42;  /* slate-900 */
+    --color-card-raised:     30  41  59;  /* slate-800 */
+    --color-border:          51  65  85;  /* slate-700 */
+    --color-border-subtle:   30  41  59;  /* slate-800 */
+
+    --color-fg:             248 250 252;  /* slate-50  */
+    --color-fg-muted:       148 163 184;  /* slate-400 */
+    --color-fg-subtle:      100 116 139;  /* slate-500 */
+  }
   body {
-    @apply bg-slate-50 text-slate-900 antialiased;
+    @apply bg-background text-fg antialiased;
   }
 }
 
 @layer utilities {
   .gradient-text {
-    @apply bg-gradient-to-r from-primary-600 to-violet-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent;
   }
 }

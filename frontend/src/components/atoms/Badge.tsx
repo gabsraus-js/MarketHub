@@ -7,11 +7,12 @@ interface BadgeProps {
 }
 
 const variants: Record<Variant, string> = {
-  default: 'bg-slate-100 text-slate-600',
-  primary: 'bg-primary-100 text-primary-700',
-  success: 'bg-emerald-100 text-emerald-700',
-  warning: 'bg-amber-100 text-amber-700',
-  purple: 'bg-violet-100 text-violet-700',
+  default: 'bg-card-raised text-fg-muted',
+  primary: 'bg-primary-subtle text-primary',
+  // status colors are intentionally fixed hues — dark: variants expected here
+  success: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300',
+  warning: 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300',
+  purple:  'bg-violet-100 text-violet-700 dark:bg-violet-900/50 dark:text-violet-300',
 }
 
 export function Badge({ variant = 'default', children, className = '' }: BadgeProps) {

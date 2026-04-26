@@ -16,11 +16,13 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-primary-500 text-white hover:bg-primary-600 shadow-soft hover:shadow-soft-md active:bg-primary-700',
+    'bg-primary text-primary-fg hover:bg-primary-hover shadow-soft hover:shadow-soft-md',
   secondary:
-    'bg-white text-slate-700 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 shadow-soft',
-  ghost: 'text-slate-600 hover:text-slate-900 hover:bg-slate-100',
-  outline: 'border border-primary-200 text-primary-600 hover:bg-primary-50',
+    'bg-card text-fg border border-border hover:bg-card-raised shadow-soft',
+  ghost:
+    'text-fg-muted hover:text-fg hover:bg-card-raised',
+  outline:
+    'border border-primary text-primary hover:bg-primary-subtle',
 }
 
 const sizes: Record<Size, string> = {
@@ -30,7 +32,7 @@ const sizes: Record<Size, string> = {
 }
 
 const base =
-  'inline-flex items-center justify-center font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
+  'inline-flex items-center justify-center font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'primary', size = 'md', href, loading, children, className = '', disabled, ...props }, ref) => {

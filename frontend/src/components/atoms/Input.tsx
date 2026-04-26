@@ -12,25 +12,25 @@ export function Input({ label, error, icon, className = '', id, ...props }: Inpu
   return (
     <div className="w-full">
       {label && (
-        <label htmlFor={inputId} className="block text-sm font-medium text-slate-700 mb-1.5">
+        <label htmlFor={inputId} className="block text-sm font-medium text-fg mb-1.5">
           {label}
         </label>
       )}
       <div className="relative">
         {icon && (
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-subtle pointer-events-none">
             {icon}
           </span>
         )}
         <input
           id={inputId}
           className={[
-            'w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400',
+            'w-full rounded-xl border bg-card px-4 py-2.5 text-sm text-fg placeholder-fg-subtle',
             'shadow-soft transition-all duration-150',
-            'focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-100',
-            'disabled:bg-slate-50 disabled:text-slate-400',
+            'focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20',
+            'disabled:bg-background disabled:text-fg-subtle',
             icon ? 'pl-10' : '',
-            error ? 'border-red-300 focus:border-red-400 focus:ring-red-100' : 'border-slate-200',
+            error ? 'border-red-300 focus:border-red-400 focus:ring-red-100' : 'border-border',
             className,
           ]
             .filter(Boolean)
