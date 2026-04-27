@@ -1,6 +1,11 @@
+'use client'
+
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/atoms/Button'
 
 export function HeroSection() {
+  const t = useTranslations('marketplaces')
+
   return (
     <section className="relative py-20 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none select-none" aria-hidden>
@@ -15,17 +20,17 @@ export function HeroSection() {
         </div>
 
         <h1 className="text-5xl sm:text-6xl font-bold text-fg leading-[1.1] tracking-tight mb-6">
-          Discover &amp; join the{' '}
-          <span className="gradient-text">best marketplaces</span>
+          {t('title')}&amp;{' '}
+          <span className="gradient-text">{t('titleHighlight').toLowerCase()}</span>
         </h1>
 
         <p className="text-xl text-fg-muted leading-relaxed mb-10 max-w-xl mx-auto">
-          Your single gateway to hundreds of online marketplaces. Find the right communities, join in seconds, and grow your presence everywhere.
+          {t('subtitle')}
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Button href="/marketplaces" size="lg">
-            Browse Marketplaces
+            {t('title')} {t('titleHighlight')}
           </Button>
           <Button href="/profile" variant="secondary" size="lg">
             View Your Profile

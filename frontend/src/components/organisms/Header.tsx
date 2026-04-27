@@ -1,16 +1,10 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { usePathname, Link } from '@/i18n/navigation'
 import { Avatar } from '@/components/atoms/Avatar'
+import { LanguageSwitcher } from '@/components/atoms/LanguageSwitcher'
 import { useTheme } from '@/components/ThemeProvider'
-
-const navItems = [
-  { label: 'Dashboard', href: '/' },
-  { label: 'Marketplaces', href: '/marketplaces' },
-  { label: 'Products', href: '/products' },
-  { label: 'Profile', href: '/profile' },
-]
 
 function ThemeToggle() {
   const { theme, toggle } = useTheme()
@@ -34,7 +28,15 @@ function ThemeToggle() {
 }
 
 export function Header() {
+  const t = useTranslations('nav')
   const pathname = usePathname()
+
+  const navItems = [
+    { label: t('dashboard'),    href: '/'             },
+    { label: t('marketplaces'), href: '/marketplaces' },
+    { label: t('products'),     href: '/products'     },
+    { label: t('profile'),      href: '/profile'      },
+  ]
 
   return (
     <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-md border-b border-border-subtle">
@@ -65,6 +67,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <LanguageSwitcher />
           <ThemeToggle />
           <Link href="/profile" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
             <Avatar fallback="Alex Johnson" size="sm" />

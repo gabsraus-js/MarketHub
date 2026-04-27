@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import { DefaultLayout } from '@/components/templates/DefaultLayout'
 import { MarketplaceGrid } from '@/components/organisms/MarketplaceGrid'
 import { SearchBar } from '@/components/molecules/SearchBar'
@@ -12,6 +13,8 @@ import type { Marketplace } from '@/types'
 const DEMO_USER_ID = 'demo-user'
 
 export default function MarketplacesPage() {
+  const t = useTranslations('marketplaces')
+
   const [marketplaces, setMarketplaces] = useState<Marketplace[]>([])
   const [joinedIds, setJoinedIds] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
@@ -53,6 +56,16 @@ export default function MarketplacesPage() {
     setJoinedIds(prev => { const n = new Set(prev); n.delete(id); return n })
   }
 
+  const resultsLabel = loading
+    ? t('loadingResults')
+    : search
+      ? (marketplaces.length === 1
+          ? t('resultSingle', { query: search })
+          : t('resultPlural', { count: marketplaces.length, query: search }))
+      : (marketplaces.length === 1
+          ? t('totalSingle')
+          : t('totalPlural', { count: marketplaces.length }))
+
   return (
     <DefaultLayout>
       {/* ── Hero ── */}
@@ -66,22 +79,20 @@ export default function MarketplacesPage() {
         <div className="relative text-center max-w-2xl mx-auto px-4">
           <div className="inline-flex items-center gap-2 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/60 dark:border-white/10 rounded-full px-4 py-1.5 text-xs font-medium text-fg-muted mb-6 shadow-soft">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            {loading ? '—' : `${marketplaces.length} platforms available`}
+            {loading ? '—' : t('platforms', { count: marketplaces.length })}
           </div>
 
           <h1 className="text-4xl sm:text-5xl font-bold text-fg tracking-tight leading-[1.1] mb-3">
-            Discover{' '}
-            <span className="gradient-text">Marketplaces</span>
+            {t('title')}{' '}
+            <span className="gradient-text">{t('titleHighlight')}</span>
           </h1>
-          <p className="text-base text-fg-muted mb-8">
-            Browse and join platforms that match your goals
-          </p>
+          <p className="text-base text-fg-muted mb-8">{t('subtitle')}</p>
 
           <div className="max-w-md mx-auto">
             <SearchBar
               value={search}
               onChange={setSearch}
-              placeholder="Search by name or description…"
+              placeholder={t('searchPlaceholder')}
             />
           </div>
         </div>
@@ -89,15 +100,9 @@ export default function MarketplacesPage() {
 
       {/* ── Results bar ── */}
       <div className="flex items-center justify-between mb-6 px-0.5">
-        <span className="text-sm text-fg-subtle">
-          {loading
-            ? 'Loading…'
-            : search
-              ? `${marketplaces.length} result${marketplaces.length !== 1 ? 's' : ''} for "${search}"`
-              : `${marketplaces.length} marketplace${marketplaces.length !== 1 ? 's' : ''}`}
-        </span>
+        <span className="text-sm text-fg-subtle">{resultsLabel}</span>
         {joinedIds.size > 0 && (
-          <Badge variant="success">{joinedIds.size} joined</Badge>
+          <Badge variant="success">{t('joinedBadge', { count: joinedIds.size })}</Badge>
         )}
       </div>
 

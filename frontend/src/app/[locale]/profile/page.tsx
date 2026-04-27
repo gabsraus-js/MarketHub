@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { DefaultLayout } from '@/components/templates/DefaultLayout'
 import { ProfileHeader } from '@/components/organisms/ProfileHeader'
 import { Card } from '@/components/atoms/Card'
@@ -9,8 +10,6 @@ import { mockUser } from '@/lib/mock-data'
 import type { User, Product } from '@/types'
 
 const DEMO_USER_ID = 'demo-user'
-
-// ── Level system ─────────────────────────────────────────────────────────────
 
 const LEVELS = [
   { level: 1,  name: 'Newcomer',  min: 0    },
@@ -41,8 +40,6 @@ function getLevelInfo(xp: number) {
   const progress = next ? Math.min(Math.round((progressXP / rangeXP) * 100), 100) : 100
   return { current, next, xp, progressXP, rangeXP, progress }
 }
-
-// ── Achievement definitions ───────────────────────────────────────────────────
 
 interface AchievementStats {
   memberships: number
@@ -137,9 +134,8 @@ const ACHIEVEMENTS: AchievementDef[] = [
   },
 ]
 
-// ── Sub-components ────────────────────────────────────────────────────────────
-
 function LevelCard({ xp, progress, current, next, progressXP, rangeXP }: ReturnType<typeof getLevelInfo>) {
+  const t = useTranslations('profile')
   const isMaxLevel = !next
 
   return (
@@ -151,13 +147,13 @@ function LevelCard({ xp, progress, current, next, progressXP, rangeXP }: ReturnT
           </div>
           <div>
             <p className="text-sm font-bold text-fg">{current.name}</p>
-            <p className="text-xs text-fg-muted">Level {current.level}</p>
+            <p className="text-xs text-fg-muted">{t('levelCard.level', { level: current.level })}</p>
           </div>
         </div>
         <div className="text-right">
           <p className="text-sm font-bold text-fg">{xp.toLocaleString()} XP</p>
           {!isMaxLevel && (
-            <p className="text-xs text-fg-muted">{(rangeXP - progressXP).toLocaleString()} to Lv.{next!.level}</p>
+            <p className="text-xs text-fg-muted">{t('levelCard.xpToLevel', { xp: (rangeXP - progressXP).toLocaleString(), level: next!.level })}</p>
           )}
         </div>
       </div>
@@ -175,13 +171,15 @@ function LevelCard({ xp, progress, current, next, progressXP, rangeXP }: ReturnT
           <span className="text-xs text-fg-subtle">{next!.name} · {next!.min.toLocaleString()} XP</span>
         </div>
       ) : (
-        <p className="text-xs text-primary font-medium mt-2 text-center">Max level reached!</p>
+        <p className="text-xs text-primary font-medium mt-2 text-center">{t('levelCard.maxLevel')}</p>
       )}
     </Card>
   )
 }
 
 function AchievementCard({ achievement, unlocked }: { achievement: AchievementDef; unlocked: boolean }) {
+  const t = useTranslations('profile')
+
   return (
     <Card
       variant="glass"
@@ -221,16 +219,16 @@ function AchievementCard({ achievement, unlocked }: { achievement: AchievementDe
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
           </svg>
-          <span className="text-xs font-medium">Unlocked</span>
+          <span className="text-xs font-medium">{t('achievementUnlocked')}</span>
         </div>
       )}
     </Card>
   )
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
-
 export default function ProfilePage() {
+  const t = useTranslations('profile')
+
   const [user, setUser] = useState<User | null>(null)
   const [products, setProducts] = useState<Product[]>([])
   const [membershipCount, setMembershipCount] = useState(0)
@@ -289,13 +287,11 @@ export default function ProfilePage() {
     return (
       <DefaultLayout>
         <div className="text-center py-24">
-          <p className="text-fg-muted text-sm">Could not load profile. Is the backend running?</p>
+          <p className="text-fg-muted text-sm">{t('notFound')}</p>
         </div>
       </DefaultLayout>
     )
   }
-
-  // ── Gamification computations ───────────────────────────────────────────
 
   const totalListings = products.reduce((sum, p) => sum + p.listings.length, 0)
   const coveredMarkets = new Set(products.flatMap(p => p.listings.map(l => l.marketplaceId))).size
@@ -314,9 +310,35 @@ export default function ProfilePage() {
 
   const unlockedCount = ACHIEVEMENTS.filter(a => a.check(achievementStats)).length
 
+  const stats = [
+    {
+      label: t('stats.totalXP'),
+      value: xp.toLocaleString(),
+      icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+      color: 'text-primary',
+    },
+    {
+      label: t('stats.marketplaces'),
+      value: membershipCount,
+      icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+      color: 'text-emerald-600 dark:text-emerald-400',
+    },
+    {
+      label: t('stats.products'),
+      value: products.length,
+      icon: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',
+      color: 'text-amber-600 dark:text-amber-400',
+    },
+    {
+      label: t('stats.achievements'),
+      value: `${unlockedCount}/${ACHIEVEMENTS.length}`,
+      icon: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z',
+      color: 'text-violet-600 dark:text-violet-400',
+    },
+  ]
+
   return (
     <DefaultLayout>
-      {/* ── Hero ── */}
       <section className="relative py-12 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none select-none" aria-hidden>
           <div className="absolute -top-10 left-1/3 w-80 h-80 bg-primary-subtle rounded-full blur-3xl opacity-60 dark:opacity-25" />
@@ -333,37 +355,10 @@ export default function ProfilePage() {
       </section>
 
       <div className="space-y-6 pb-16">
-        {/* ── Level progress ── */}
         <LevelCard {...levelInfo} />
 
-        {/* ── Stats ── */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {[
-            {
-              label: 'Total XP',
-              value: xp.toLocaleString(),
-              icon: 'M13 10V3L4 14h7v7l9-11h-7z',
-              color: 'text-primary',
-            },
-            {
-              label: 'Marketplaces',
-              value: membershipCount,
-              icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
-              color: 'text-emerald-600 dark:text-emerald-400',
-            },
-            {
-              label: 'Products',
-              value: products.length,
-              icon: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',
-              color: 'text-amber-600 dark:text-amber-400',
-            },
-            {
-              label: 'Achievements',
-              value: `${unlockedCount}/${ACHIEVEMENTS.length}`,
-              icon: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z',
-              color: 'text-violet-600 dark:text-violet-400',
-            },
-          ].map(stat => (
+          {stats.map(stat => (
             <Card key={stat.label} variant="glass" padding="md">
               <div className="flex items-start justify-between">
                 <div>
@@ -380,12 +375,11 @@ export default function ProfilePage() {
           ))}
         </div>
 
-        {/* ── Achievements ── */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-fg">Achievements</h2>
+            <h2 className="text-xl font-bold text-fg">{t('achievements')}</h2>
             <span className="text-sm text-fg-muted">
-              <span className="font-semibold text-fg">{unlockedCount}</span> of {ACHIEVEMENTS.length} unlocked
+              {t('unlockedCount', { unlocked: unlockedCount, total: ACHIEVEMENTS.length })}
             </span>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">

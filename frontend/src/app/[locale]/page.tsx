@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { useTranslations, useLocale } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import { DefaultLayout } from '@/components/templates/DefaultLayout'
 import { Card } from '@/components/atoms/Card'
 import { Button } from '@/components/atoms/Button'
@@ -11,8 +12,6 @@ import { mockUser, mockMarketplaces } from '@/lib/mock-data'
 import type { User, Marketplace, Product } from '@/types'
 
 const DEMO_USER_ID = 'demo-user'
-
-// ── Gamification ─────────────────────────────────────────────────────────────
 
 const LEVELS = [
   { level: 1,  name: 'Newcomer',  min: 0    },
@@ -41,14 +40,14 @@ function getLevelInfo(memberships: number, products: number, totalListings: numb
   return { current, next, xp, progressXP, rangeXP, progress }
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+type GreetingKey = 'greetMorning' | 'greetAfternoon' | 'greetEvening' | 'greetNight'
 
-function getGreeting() {
+function getGreetingKey(): GreetingKey {
   const h = new Date().getHours()
-  if (h < 12) return 'Good morning'
-  if (h < 17) return 'Good afternoon'
-  if (h < 21) return 'Good evening'
-  return 'Good night'
+  if (h < 12) return 'greetMorning'
+  if (h < 17) return 'greetAfternoon'
+  if (h < 21) return 'greetEvening'
+  return 'greetNight'
 }
 
 const categoryColor: Record<string, string> = {
@@ -60,9 +59,11 @@ const categoryColor: Record<string, string> = {
   Startup:            'from-card-raised to-card-raised text-fg-muted',
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
-
 export default function DashboardPage() {
+  const t = useTranslations('dashboard')
+  const tc = useTranslations('common')
+  const locale = useLocale()
+
   const [user, setUser] = useState<User | null>(null)
   const [joinedMarketplaces, setJoinedMarketplaces] = useState<Marketplace[]>([])
   const [products, setProducts] = useState<Product[]>([])
@@ -92,36 +93,62 @@ export default function DashboardPage() {
   const totalListings = products.reduce((sum, p) => sum + p.listings.length, 0)
   const coveredMarkets = new Set(products.flatMap(p => p.listings.map(l => l.marketplaceId))).size
   const levelInfo = getLevelInfo(joinedMarketplaces.length, products.length, totalListings)
-  const today = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+  const today = new Date().toLocaleDateString(locale === 'pt' ? 'pt-BR' : 'en-US', {
+    weekday: 'short', month: 'short', day: 'numeric',
+  })
 
   const kpis = [
     {
-      label: 'Marketplaces',
+      label: t('kpi.marketplaces'),
       value: loading ? '—' : joinedMarketplaces.length,
       icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
       iconColor: 'text-indigo-600 dark:text-indigo-400',
       href: '/marketplaces',
     },
     {
-      label: 'Products',
+      label: t('kpi.products'),
       value: loading ? '—' : products.length,
       icon: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',
       iconColor: 'text-amber-600 dark:text-amber-400',
       href: '/products',
     },
     {
-      label: 'Total Listings',
+      label: t('kpi.totalListings'),
       value: loading ? '—' : totalListings,
       icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
       iconColor: 'text-emerald-600 dark:text-emerald-400',
       href: '/products',
     },
     {
-      label: 'Markets Covered',
+      label: t('kpi.marketsCovered'),
       value: loading ? '—' : coveredMarkets,
       icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
       iconColor: 'text-cyan-600 dark:text-cyan-400',
       href: '/products',
+    },
+  ]
+
+  const quickActions = [
+    {
+      label: t('actions.browseLabel'),
+      desc: t('actions.browseDesc'),
+      href: '/marketplaces',
+      icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
+      color: 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400',
+    },
+    {
+      label: t('actions.addLabel'),
+      desc: t('actions.addDesc'),
+      href: '/products',
+      icon: 'M12 4v16m8-8H4',
+      color: 'bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400',
+    },
+    {
+      label: t('actions.viewProfileLabel'),
+      desc: t('actions.viewProfileDesc'),
+      href: '/profile',
+      icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
+      color: 'bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400',
     },
   ]
 
@@ -137,7 +164,7 @@ export default function DashboardPage() {
           <div>
             <p className="text-sm text-fg-muted font-medium mb-1">{today}</p>
             <h1 className="text-3xl sm:text-4xl font-bold text-fg tracking-tight">
-              {getGreeting()},{' '}
+              {t(getGreetingKey())},{' '}
               <span className="gradient-text">{loading ? '…' : (user?.name.split(' ')[0] ?? 'there')}</span>
             </h1>
           </div>
@@ -176,12 +203,11 @@ export default function DashboardPage() {
 
       {/* ── Level + Quick actions ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-        {/* Level progress */}
         <Card variant="glass" padding="md">
           <div className="flex items-center justify-between mb-4">
-            <p className="text-sm font-semibold text-fg">Level Progress</p>
+            <p className="text-sm font-semibold text-fg">{t('levelProgress')}</p>
             <Link href="/profile" className="text-xs text-primary font-medium hover:text-primary-hover transition-colors">
-              View profile →
+              {tc('viewProfile')}
             </Link>
           </div>
           <div className="flex items-center gap-3 mb-4">
@@ -203,41 +229,17 @@ export default function DashboardPage() {
           </div>
           {levelInfo.next ? (
             <p className="text-xs text-fg-muted">
-              <span className="font-semibold text-fg">{(levelInfo.rangeXP - levelInfo.progressXP).toLocaleString()} XP</span>{' '}
-              needed to reach <span className="font-semibold text-fg">{levelInfo.next.name}</span>
+              {t('xpNeeded', { xp: (levelInfo.rangeXP - levelInfo.progressXP).toLocaleString(), level: levelInfo.next.name })}
             </p>
           ) : (
-            <p className="text-xs text-primary font-semibold">Max level reached!</p>
+            <p className="text-xs text-primary font-semibold">{t('maxLevel')}</p>
           )}
         </Card>
 
-        {/* Quick actions */}
         <Card variant="glass" padding="md">
-          <p className="text-sm font-semibold text-fg mb-4">Quick Actions</p>
+          <p className="text-sm font-semibold text-fg mb-4">{t('quickActions')}</p>
           <div className="space-y-2">
-            {[
-              {
-                label: 'Browse Marketplaces',
-                desc: 'Discover and join new platforms',
-                href: '/marketplaces',
-                icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
-                color: 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400',
-              },
-              {
-                label: 'Add New Product',
-                desc: 'Create and list across markets',
-                href: '/products',
-                icon: 'M12 4v16m8-8H4',
-                color: 'bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400',
-              },
-              {
-                label: 'View Profile',
-                desc: 'Achievements and account settings',
-                href: '/profile',
-                icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
-                color: 'bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400',
-              },
-            ].map(action => (
+            {quickActions.map(action => (
               <Link key={action.href} href={action.href}>
                 <div className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/40 dark:hover:bg-white/5 transition-colors cursor-pointer group">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${action.color}`}>
@@ -263,9 +265,9 @@ export default function DashboardPage() {
       {!loading && joinedMarketplaces.length > 0 && (
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base font-semibold text-fg">Joined Marketplaces</h2>
+            <h2 className="text-base font-semibold text-fg">{t('joinedMarketplaces')}</h2>
             <Link href="/marketplaces" className="text-xs text-primary font-medium hover:text-primary-hover transition-colors">
-              Browse all →
+              {tc('browseAll')}
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -280,7 +282,7 @@ export default function DashboardPage() {
                     <p className="text-sm font-semibold text-fg truncate">{m.name}</p>
                     <p className="text-xs text-fg-muted">{m.category}</p>
                   </div>
-                  <Badge variant="success" className="shrink-0">Joined</Badge>
+                  <Badge variant="success" className="shrink-0">{tc('joined')}</Badge>
                 </Card>
               )
             })}
@@ -296,11 +298,11 @@ export default function DashboardPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <h3 className="font-semibold text-fg mb-1">Nothing here yet</h3>
-          <p className="text-sm text-fg-muted mb-6">Join a marketplace or add a product to get started</p>
+          <h3 className="font-semibold text-fg mb-1">{tc('noDataTitle')}</h3>
+          <p className="text-sm text-fg-muted mb-6">{tc('noDataDesc')}</p>
           <div className="flex items-center justify-center gap-3">
-            <Button href="/marketplaces" size="sm">Browse Marketplaces</Button>
-            <Button href="/products" variant="secondary" size="sm">Add Product</Button>
+            <Button href="/marketplaces" size="sm">{tc('browseMarketplaces')}</Button>
+            <Button href="/products" variant="secondary" size="sm">{tc('addProduct')}</Button>
           </div>
         </Card>
       )}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/atoms/Button'
 import { Card } from '@/components/atoms/Card'
 import { Input } from '@/components/atoms/Input'
@@ -14,8 +15,6 @@ interface Props {
   onClose: () => void
 }
 
-// ─── Image upload ─────────────────────────────────────────────────────────────
-
 type ImageEntry = {
   id?: string
   url: string
@@ -24,6 +23,7 @@ type ImageEntry = {
 }
 
 function ImageUpload({ images, onChange }: { images: ImageEntry[]; onChange: (v: ImageEntry[]) => void }) {
+  const t = useTranslations('productForm')
   const inputRef = useRef<HTMLInputElement>(null)
 
   const onFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +42,7 @@ function ImageUpload({ images, onChange }: { images: ImageEntry[]; onChange: (v:
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <label className="text-sm font-medium text-fg">Photos</label>
+        <label className="text-sm font-medium text-fg">{t('photos')}</label>
         <span className="text-xs text-fg-subtle">{images.length}/5</span>
       </div>
 
@@ -58,8 +58,8 @@ function ImageUpload({ images, onChange }: { images: ImageEntry[]; onChange: (v:
             </svg>
           </div>
           <div className="text-center">
-            <p className="text-xs font-medium">Click to add photos</p>
-            <p className="text-[10px] text-fg-subtle mt-0.5">Up to 5 images</p>
+            <p className="text-xs font-medium">{t('addPhotos')}</p>
+            <p className="text-[10px] text-fg-subtle mt-0.5">{t('upTo5')}</p>
           </div>
         </button>
       ) : (
@@ -89,7 +89,7 @@ function ImageUpload({ images, onChange }: { images: ImageEntry[]; onChange: (v:
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
               </svg>
-              <span className="text-[10px] font-medium">Add</span>
+              <span className="text-[10px] font-medium">{t('add')}</span>
             </button>
           )}
         </div>
@@ -98,8 +98,6 @@ function ImageUpload({ images, onChange }: { images: ImageEntry[]; onChange: (v:
     </div>
   )
 }
-
-// ─── Marketplace row ──────────────────────────────────────────────────────────
 
 type ListingEntry = {
   marketplaceId: string
@@ -127,6 +125,7 @@ function MarketplaceRow({
   onPriceChange: (v: string) => void
   priceError?: string
 }) {
+  const t = useTranslations('productForm')
   const colors = categoryColors[entry.category] ?? 'from-border-subtle to-border text-fg-muted'
   const isCustom = entry.enabled && basePrice !== '' && entry.price !== basePrice && entry.price !== ''
 
@@ -138,7 +137,6 @@ function MarketplaceRow({
           : 'border-border-subtle bg-white/30 dark:bg-white/5'
       }`}
     >
-      {/* Checkbox */}
       <button
         type="button"
         onClick={onToggle}
@@ -155,18 +153,15 @@ function MarketplaceRow({
         )}
       </button>
 
-      {/* Icon */}
       <div className={`w-7 h-7 rounded-lg bg-gradient-to-br ${colors} flex items-center justify-center text-xs font-bold shrink-0 select-none`}>
         {entry.name.charAt(0)}
       </div>
 
-      {/* Name */}
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-fg truncate leading-tight">{entry.name}</p>
         <p className="text-xs text-fg-subtle">{entry.category}</p>
       </div>
 
-      {/* Price */}
       <div className="shrink-0 w-28 flex flex-col items-end gap-0.5">
         {entry.enabled ? (
           <>
@@ -187,7 +182,7 @@ function MarketplaceRow({
               />
             </div>
             {isCustom && (
-              <span className="text-[10px] text-primary font-medium">custom price</span>
+              <span className="text-[10px] text-primary font-medium">{t('customPrice')}</span>
             )}
           </>
         ) : (
@@ -198,9 +193,8 @@ function MarketplaceRow({
   )
 }
 
-// ─── Main form ────────────────────────────────────────────────────────────────
-
 export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
+  const t = useTranslations('productForm')
   const isEdit = Boolean(product)
   const [name, setName] = useState(product?.name ?? '')
   const [description, setDescription] = useState(product?.description ?? '')
@@ -264,12 +258,12 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
 
   const validate = () => {
     const errs: Record<string, string> = {}
-    if (!name.trim()) errs.name = 'Product name is required'
+    if (!name.trim()) errs.name = t('productNameRequired')
     const enabled = listings.filter(l => l.enabled)
-    if (enabled.length === 0) errs.listings = 'Select at least one marketplace'
+    if (enabled.length === 0) errs.listings = t('selectAtLeast')
     enabled.forEach(l => {
       const p = parseFloat(l.price)
-      if (!l.price || isNaN(p) || p <= 0) errs[`price_${l.marketplaceId}`] = 'Enter a valid price'
+      if (!l.price || isNaN(p) || p <= 0) errs[`price_${l.marketplaceId}`] = t('invalidPrice')
     })
     return errs
   }
@@ -291,7 +285,7 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
         }))
       ).filter((u): u is string => u !== null)
 
-      if (uploadFailed) setUploadError('Some images failed to upload. Check the backend server.')
+      if (uploadFailed) setUploadError(t('uploadError'))
 
       await onSave({
         name: name.trim(),
@@ -306,6 +300,10 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
       setSaving(false)
     }
   }
+
+  const footerLabel = enabledCount > 0
+    ? (enabledCount === 1 ? t('selectedSingle') : t('selectedPlural', { count: enabledCount }))
+    : t('noMarketplace')
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -325,9 +323,9 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
               </svg>
             </div>
             <div>
-              <h2 className="text-sm font-bold text-fg">{isEdit ? 'Edit Product' : 'New Product'}</h2>
+              <h2 className="text-sm font-bold text-fg">{isEdit ? t('editTitle') : t('newTitle')}</h2>
               <p className="text-xs text-fg-muted">
-                {isEdit ? 'Update details, photos, and prices' : 'Add photos, set prices per marketplace'}
+                {isEdit ? t('editSubtitle') : t('newSubtitle')}
               </p>
             </div>
           </div>
@@ -349,34 +347,33 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
           )}
 
           <Input
-            label="Product Name"
+            label={t('productName')}
             value={name}
             onChange={e => { setName(e.target.value); setErrors(p => ({ ...p, name: '' })) }}
-            placeholder="e.g. Premium Design Kit"
+            placeholder={t('productNamePlaceholder')}
             error={errors.name}
           />
 
           <div>
             <label className="block text-sm font-medium text-fg mb-1.5">
-              Description{' '}
-              <span className="text-fg-subtle font-normal">(optional)</span>
+              {t('description')}{' '}
+              <span className="text-fg-subtle font-normal">{t('descriptionOptional')}</span>
             </label>
             <textarea
               value={description}
               onChange={e => setDescription(e.target.value)}
-              placeholder="Describe your product in a few sentences..."
+              placeholder={t('descriptionPlaceholder')}
               rows={3}
               className="w-full rounded-xl border border-border bg-white/60 dark:bg-white/5 backdrop-blur-sm px-4 py-2.5 text-sm text-fg placeholder-fg-subtle focus:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/10 transition-all resize-none"
             />
           </div>
 
-          {/* Marketplace listings */}
           <div>
             <div className="flex items-center justify-between mb-3">
               <div>
-                <p className="text-sm font-medium text-fg">Marketplace Listings</p>
+                <p className="text-sm font-medium text-fg">{t('marketplaceListings')}</p>
                 <p className="text-xs text-fg-muted mt-0.5">
-                  {enabledCount > 0 ? `${enabledCount} selected` : 'Choose where to list this product'}
+                  {enabledCount > 0 ? t('selectedCount', { count: enabledCount }) : t('chooseWhere')}
                 </p>
               </div>
               <button
@@ -384,14 +381,13 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
                 onClick={toggleAll}
                 className="text-xs font-medium text-primary hover:text-primary-hover transition-colors"
               >
-                {allEnabled ? 'Deselect all' : 'Select all'}
+                {allEnabled ? t('deselectAll') : t('selectAll')}
               </button>
             </div>
 
-            {/* Base price */}
             <div className="flex items-end gap-2 mb-3 p-3 bg-white/40 dark:bg-white/5 rounded-xl border border-border-subtle backdrop-blur-sm">
               <div className="flex-1">
-                <label className="block text-xs font-medium text-fg-muted mb-1">Base price</label>
+                <label className="block text-xs font-medium text-fg-muted mb-1">{t('basePrice')}</label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-subtle text-sm select-none">$</span>
                   <input
@@ -411,7 +407,7 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
                 disabled={!basePrice}
                 className="shrink-0 px-3 py-2 text-xs font-semibold rounded-lg bg-primary-subtle text-primary hover:bg-primary/20 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
               >
-                Apply to all
+                {t('applyToAll')}
               </button>
             </div>
 
@@ -436,15 +432,11 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
 
         {/* ── Footer ── */}
         <div className="flex items-center justify-between px-6 py-4 border-t border-border-subtle shrink-0">
-          <span className="text-xs text-fg-subtle">
-            {enabledCount > 0
-              ? `${enabledCount} marketplace${enabledCount !== 1 ? 's' : ''} selected`
-              : 'No marketplace selected'}
-          </span>
+          <span className="text-xs text-fg-subtle">{footerLabel}</span>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={onClose}>Cancel</Button>
+            <Button variant="ghost" size="sm" onClick={onClose}>{t('cancel')}</Button>
             <Button size="sm" loading={saving} onClick={handleSubmit}>
-              {isEdit ? 'Save Changes' : 'Create Product'}
+              {isEdit ? t('saveChanges') : t('createProduct')}
             </Button>
           </div>
         </div>

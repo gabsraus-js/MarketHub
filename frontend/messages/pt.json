@@ -1,0 +1,135 @@
+{
+  "nav": {
+    "dashboard": "Painel",
+    "marketplaces": "Marketplaces",
+    "products": "Produtos",
+    "profile": "Perfil"
+  },
+  "common": {
+    "loading": "Carregando…",
+    "cancel": "Cancelar",
+    "joined": "Ingressado",
+    "leave": "Sair",
+    "join": "Entrar",
+    "members": "{count} membros",
+    "browseAll": "Ver todos →",
+    "viewProfile": "Ver perfil →",
+    "noDataTitle": "Nada por aqui ainda",
+    "noDataDesc": "Junte-se a um marketplace ou adicione um produto para começar",
+    "browseMarketplaces": "Explorar Marketplaces",
+    "addProduct": "Adicionar Produto"
+  },
+  "dashboard": {
+    "greetMorning": "Bom dia",
+    "greetAfternoon": "Boa tarde",
+    "greetEvening": "Boa noite",
+    "greetNight": "Boa noite",
+    "levelProgress": "Progresso de Nível",
+    "quickActions": "Ações Rápidas",
+    "joinedMarketplaces": "Marketplaces Ingressados",
+    "xpNeeded": "{xp} XP necessários para atingir {level}",
+    "maxLevel": "Nível máximo atingido!",
+    "kpi": {
+      "marketplaces": "Marketplaces",
+      "products": "Produtos",
+      "totalListings": "Total de Anúncios",
+      "marketsCovered": "Mercados Cobertos"
+    },
+    "actions": {
+      "browseLabel": "Explorar Marketplaces",
+      "browseDesc": "Descubra e ingresse em novas plataformas",
+      "addLabel": "Novo Produto",
+      "addDesc": "Crie e anuncie em vários mercados",
+      "viewProfileLabel": "Ver Perfil",
+      "viewProfileDesc": "Conquistas e configurações de conta"
+    }
+  },
+  "marketplaces": {
+    "title": "Descubra",
+    "titleHighlight": "Marketplaces",
+    "subtitle": "Explore e ingresse em plataformas que combinam com seus objetivos",
+    "platforms": "{count} plataformas disponíveis",
+    "searchPlaceholder": "Pesquisar por nome ou descrição…",
+    "resultSingle": "1 resultado para \"{query}\"",
+    "resultPlural": "{count} resultados para \"{query}\"",
+    "totalSingle": "1 marketplace",
+    "totalPlural": "{count} marketplaces",
+    "joinedBadge": "{count} ingressado",
+    "loadingResults": "Carregando…"
+  },
+  "products": {
+    "title": "Seus",
+    "titleHighlight": "Produtos",
+    "subtitle": "Cadastre produtos e defina preços em cada marketplace",
+    "registeredSingle": "1 produto cadastrado",
+    "registeredPlural": "{count} produtos cadastrados",
+    "newProduct": "Novo Produto",
+    "noPrice": "Sem preço",
+    "stats": {
+      "products": "Produtos",
+      "totalListings": "Total de anúncios",
+      "marketsCovered": "Mercados cobertos"
+    },
+    "empty": {
+      "title": "Nenhum produto ainda",
+      "description": "Crie seu primeiro produto e anuncie em marketplaces com preços personalizados.",
+      "cta": "Criar primeiro produto"
+    }
+  },
+  "profile": {
+    "achievements": "Conquistas",
+    "unlockedCount": "{unlocked} de {total} desbloqueadas",
+    "notFound": "Não foi possível carregar o perfil. O backend está rodando?",
+    "achievementUnlocked": "Desbloqueado",
+    "levelCard": {
+      "level": "Nível {level}",
+      "xpToLevel": "{xp} para Nv.{level}",
+      "maxLevel": "Nível máximo atingido!"
+    },
+    "stats": {
+      "totalXP": "XP Total",
+      "marketplaces": "Marketplaces",
+      "products": "Produtos",
+      "achievements": "Conquistas"
+    }
+  },
+  "productForm": {
+    "newTitle": "Novo Produto",
+    "editTitle": "Editar Produto",
+    "newSubtitle": "Adicione fotos e defina preços por marketplace",
+    "editSubtitle": "Atualize detalhes, fotos e preços",
+    "photos": "Fotos",
+    "addPhotos": "Clique para adicionar fotos",
+    "upTo5": "Até 5 imagens",
+    "productName": "Nome do Produto",
+    "productNamePlaceholder": "ex: Kit de Design Premium",
+    "productNameRequired": "Nome do produto é obrigatório",
+    "description": "Descrição",
+    "descriptionOptional": "(opcional)",
+    "descriptionPlaceholder": "Descreva seu produto em algumas frases...",
+    "marketplaceListings": "Anúncios em Marketplaces",
+    "selectAtLeast": "Selecione ao menos um marketplace",
+    "selectedCount": "{count} selecionado",
+    "chooseWhere": "Escolha onde anunciar este produto",
+    "deselectAll": "Desmarcar todos",
+    "selectAll": "Selecionar todos",
+    "basePrice": "Preço base",
+    "applyToAll": "Aplicar a todos",
+    "customPrice": "preço personalizado",
+    "invalidPrice": "Digite um preço válido",
+    "selectedSingle": "1 marketplace selecionado",
+    "selectedPlural": "{count} marketplaces selecionados",
+    "noMarketplace": "Nenhum marketplace selecionado",
+    "uploadError": "Algumas imagens falharam ao enviar. Verifique o servidor backend.",
+    "saveChanges": "Salvar Alterações",
+    "createProduct": "Criar Produto",
+    "cancel": "Cancelar",
+    "add": "Adicionar"
+  },
+  "productCard": {
+    "removeConfirm": "Remover produto?",
+    "cancel": "Cancelar",
+    "removing": "Removendo…",
+    "remove": "Remover"
+  }
+}

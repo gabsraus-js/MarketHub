@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Badge } from '@/components/atoms/Badge'
 import { Button } from '@/components/atoms/Button'
 import { Card } from '@/components/atoms/Card'
@@ -35,6 +36,7 @@ const categoryColor: Record<string, string> = {
 }
 
 export function MarketplaceCard({ marketplace, isJoined = false, onJoin, onLeave }: Props) {
+  const t = useTranslations('common')
   const [loading, setLoading] = useState(false)
   const [joined, setJoined] = useState(isJoined)
 
@@ -68,7 +70,7 @@ export function MarketplaceCard({ marketplace, isJoined = false, onJoin, onLeave
             <h3 className="font-semibold text-fg text-sm leading-tight truncate">{marketplace.name}</h3>
             {joined && (
               <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium bg-emerald-50 dark:bg-emerald-900/30 px-2 py-0.5 rounded-full shrink-0">
-                ✓ Joined
+                ✓ {t('joined')}
               </span>
             )}
           </div>
@@ -85,10 +87,10 @@ export function MarketplaceCard({ marketplace, isJoined = false, onJoin, onLeave
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          {marketplace.memberCount.toLocaleString()} members
+          {t('members', { count: marketplace.memberCount.toLocaleString() })}
         </span>
         <Button variant={joined ? 'secondary' : 'primary'} size="sm" loading={loading} onClick={toggle}>
-          {joined ? 'Leave' : 'Join'}
+          {joined ? t('leave') : t('join')}
         </Button>
       </div>
     </Card>

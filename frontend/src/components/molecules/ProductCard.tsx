@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/atoms/Button'
 import { Card } from '@/components/atoms/Card'
 import { BACKEND_URL } from '@/lib/api'
@@ -17,6 +18,9 @@ function imgSrc(img: ProductImage) {
 }
 
 export function ProductCard({ product, onEdit, onDelete }: Props) {
+  const t = useTranslations('productCard')
+  const tp = useTranslations('products')
+
   const [confirming, setConfirming] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [images] = useState(() =>
@@ -58,7 +62,6 @@ export function ProductCard({ product, onEdit, onDelete }: Props) {
           </div>
         )}
 
-        {/* Thumbnail strip overlay */}
         {images.length > 1 && (
           <div className="absolute bottom-1.5 left-0 right-0 flex justify-center gap-1 px-2">
             {images.slice(0, 5).map((img, i) => (
@@ -80,7 +83,6 @@ export function ProductCard({ product, onEdit, onDelete }: Props) {
           </div>
         )}
 
-        {/* Action buttons */}
         <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
           <button
             onClick={e => { e.stopPropagation(); onEdit(product) }}
@@ -112,7 +114,7 @@ export function ProductCard({ product, onEdit, onDelete }: Props) {
             R$ {lowestPrice.toFixed(2)}
           </p>
         ) : (
-          <p className="text-sm text-slate-300 italic mt-0.5">Sem preço</p>
+          <p className="text-sm text-slate-300 italic mt-0.5">{tp('noPrice')}</p>
         )}
 
         {product.listings.length > 0 && (
@@ -127,15 +129,15 @@ export function ProductCard({ product, onEdit, onDelete }: Props) {
 
         {confirming && (
           <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
-            <p className="text-xs text-slate-500">Remover produto?</p>
+            <p className="text-xs text-slate-500">{t('removeConfirm')}</p>
             <div className="flex items-center gap-1.5 shrink-0">
-              <Button variant="ghost" size="sm" onClick={() => setConfirming(false)}>Cancelar</Button>
+              <Button variant="ghost" size="sm" onClick={() => setConfirming(false)}>{t('cancel')}</Button>
               <button
                 onClick={handleDelete}
                 disabled={deleting}
                 className="px-3 py-1.5 text-xs rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 disabled:opacity-50 transition-colors"
               >
-                {deleting ? 'Removendo…' : 'Remover'}
+                {deleting ? t('removing') : t('remove')}
               </button>
             </div>
           </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { DefaultLayout } from '@/components/templates/DefaultLayout'
 import { ProductCard } from '@/components/molecules/ProductCard'
 import { ProductForm } from '@/components/organisms/ProductForm'
@@ -33,6 +34,8 @@ function SkeletonCard() {
 }
 
 export default function ProductsPage() {
+  const t = useTranslations('products')
+
   const [products, setProducts] = useState<Product[]>([])
   const [marketplaces, setMarketplaces] = useState<Marketplace[]>([])
   const [loading, setLoading] = useState(true)
@@ -124,6 +127,10 @@ export default function ProductsPage() {
   const totalListings = products.reduce((sum, p) => sum + p.listings.length, 0)
   const coveredMarkets = new Set(products.flatMap(p => p.listings.map(l => l.marketplaceId))).size
 
+  const registeredLabel = products.length === 1
+    ? t('registeredSingle')
+    : t('registeredPlural', { count: products.length })
+
   return (
     <DefaultLayout>
       {/* ── Hero ── */}
@@ -138,22 +145,20 @@ export default function ProductsPage() {
           <div>
             <div className="inline-flex items-center gap-2 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/60 dark:border-white/10 rounded-full px-4 py-1.5 text-xs font-medium text-fg-muted mb-5 shadow-soft">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              {loading ? '—' : `${products.length} product${products.length !== 1 ? 's' : ''} registered`}
+              {loading ? '—' : registeredLabel}
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold text-fg tracking-tight leading-[1.1] mb-3">
-              Your{' '}
-              <span className="gradient-text">Products</span>
+              {t('title')}{' '}
+              <span className="gradient-text">{t('titleHighlight')}</span>
             </h1>
-            <p className="text-base text-fg-muted">
-              Register products and set prices across marketplaces
-            </p>
+            <p className="text-base text-fg-muted">{t('subtitle')}</p>
           </div>
 
           <Button onClick={openCreate} size="lg" className="shrink-0">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
-            New Product
+            {t('newProduct')}
           </Button>
         </div>
       </section>
@@ -162,9 +167,9 @@ export default function ProductsPage() {
       {!loading && products.length > 0 && (
         <div className="flex items-center gap-3 mb-6 flex-wrap">
           {[
-            { label: 'Products', value: products.length },
-            { label: 'Total listings', value: totalListings },
-            { label: 'Markets covered', value: coveredMarkets },
+            { label: t('stats.products'), value: products.length },
+            { label: t('stats.totalListings'), value: totalListings },
+            { label: t('stats.marketsCovered'), value: coveredMarkets },
           ].map(stat => (
             <div
               key={stat.label}
@@ -189,15 +194,13 @@ export default function ProductsPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
             </svg>
           </div>
-          <h3 className="font-semibold text-fg mb-1">No products yet</h3>
-          <p className="text-sm text-fg-muted max-w-xs mx-auto mb-6">
-            Create your first product and list it across marketplaces with custom prices.
-          </p>
+          <h3 className="font-semibold text-fg mb-1">{t('empty.title')}</h3>
+          <p className="text-sm text-fg-muted max-w-xs mx-auto mb-6">{t('empty.description')}</p>
           <Button onClick={openCreate} size="md">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
-            Create your first product
+            {t('empty.cta')}
           </Button>
         </Card>
       ) : (

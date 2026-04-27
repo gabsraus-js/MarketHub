@@ -1,0 +1,135 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "marketplaces": "Marketplaces",
+    "products": "Products",
+    "profile": "Profile"
+  },
+  "common": {
+    "loading": "Loading…",
+    "cancel": "Cancel",
+    "joined": "Joined",
+    "leave": "Leave",
+    "join": "Join",
+    "members": "{count} members",
+    "browseAll": "Browse all →",
+    "viewProfile": "View profile →",
+    "noDataTitle": "Nothing here yet",
+    "noDataDesc": "Join a marketplace or add a product to get started",
+    "browseMarketplaces": "Browse Marketplaces",
+    "addProduct": "Add Product"
+  },
+  "dashboard": {
+    "greetMorning": "Good morning",
+    "greetAfternoon": "Good afternoon",
+    "greetEvening": "Good evening",
+    "greetNight": "Good night",
+    "levelProgress": "Level Progress",
+    "quickActions": "Quick Actions",
+    "joinedMarketplaces": "Joined Marketplaces",
+    "xpNeeded": "{xp} XP needed to reach {level}",
+    "maxLevel": "Max level reached!",
+    "kpi": {
+      "marketplaces": "Marketplaces",
+      "products": "Products",
+      "totalListings": "Total Listings",
+      "marketsCovered": "Markets Covered"
+    },
+    "actions": {
+      "browseLabel": "Browse Marketplaces",
+      "browseDesc": "Discover and join new platforms",
+      "addLabel": "Add New Product",
+      "addDesc": "Create and list across markets",
+      "viewProfileLabel": "View Profile",
+      "viewProfileDesc": "Achievements and account settings"
+    }
+  },
+  "marketplaces": {
+    "title": "Discover",
+    "titleHighlight": "Marketplaces",
+    "subtitle": "Browse and join platforms that match your goals",
+    "platforms": "{count} platforms available",
+    "searchPlaceholder": "Search by name or description…",
+    "resultSingle": "1 result for \"{query}\"",
+    "resultPlural": "{count} results for \"{query}\"",
+    "totalSingle": "1 marketplace",
+    "totalPlural": "{count} marketplaces",
+    "joinedBadge": "{count} joined",
+    "loadingResults": "Loading…"
+  },
+  "products": {
+    "title": "Your",
+    "titleHighlight": "Products",
+    "subtitle": "Register products and set prices across marketplaces",
+    "registeredSingle": "1 product registered",
+    "registeredPlural": "{count} products registered",
+    "newProduct": "New Product",
+    "noPrice": "No price",
+    "stats": {
+      "products": "Products",
+      "totalListings": "Total listings",
+      "marketsCovered": "Markets covered"
+    },
+    "empty": {
+      "title": "No products yet",
+      "description": "Create your first product and list it across marketplaces with custom prices.",
+      "cta": "Create your first product"
+    }
+  },
+  "profile": {
+    "achievements": "Achievements",
+    "unlockedCount": "{unlocked} of {total} unlocked",
+    "notFound": "Could not load profile. Is the backend running?",
+    "achievementUnlocked": "Unlocked",
+    "levelCard": {
+      "level": "Level {level}",
+      "xpToLevel": "{xp} to Lv.{level}",
+      "maxLevel": "Max level reached!"
+    },
+    "stats": {
+      "totalXP": "Total XP",
+      "marketplaces": "Marketplaces",
+      "products": "Products",
+      "achievements": "Achievements"
+    }
+  },
+  "productForm": {
+    "newTitle": "New Product",
+    "editTitle": "Edit Product",
+    "newSubtitle": "Add photos, set prices per marketplace",
+    "editSubtitle": "Update details, photos, and prices",
+    "photos": "Photos",
+    "addPhotos": "Click to add photos",
+    "upTo5": "Up to 5 images",
+    "productName": "Product Name",
+    "productNamePlaceholder": "e.g. Premium Design Kit",
+    "productNameRequired": "Product name is required",
+    "description": "Description",
+    "descriptionOptional": "(optional)",
+    "descriptionPlaceholder": "Describe your product in a few sentences...",
+    "marketplaceListings": "Marketplace Listings",
+    "selectAtLeast": "Select at least one marketplace",
+    "selectedCount": "{count} selected",
+    "chooseWhere": "Choose where to list this product",
+    "deselectAll": "Deselect all",
+    "selectAll": "Select all",
+    "basePrice": "Base price",
+    "applyToAll": "Apply to all",
+    "customPrice": "custom price",
+    "invalidPrice": "Enter a valid price",
+    "selectedSingle": "1 marketplace selected",
+    "selectedPlural": "{count} marketplaces selected",
+    "noMarketplace": "No marketplace selected",
+    "uploadError": "Some images failed to upload. Check the backend server.",
+    "saveChanges": "Save Changes",
+    "createProduct": "Create Product",
+    "cancel": "Cancel",
+    "add": "Add"
+  },
+  "productCard": {
+    "removeConfirm": "Remove product?",
+    "cancel": "Cancel",
+    "removing": "Removing…",
+    "remove": "Remove"
+  }
+}
