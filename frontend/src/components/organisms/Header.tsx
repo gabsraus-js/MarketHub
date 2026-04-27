@@ -55,7 +55,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-150 ${
+              className={`px-4 py-2 rounded-xl text-sm font-medium ${
                 pathname === item.href
                   ? 'text-primary bg-primary-subtle'
                   : 'text-fg-muted hover:text-fg hover:bg-card-raised'

@@ -10,9 +10,6 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // ── semantic tokens ─────────────────────────────────────────
-        // CSS vars flip between light/dark automatically.
-        // Usage: bg-primary, text-fg, border-border, bg-card, etc.
         primary: {
           DEFAULT: 'rgb(var(--color-primary) / <alpha-value>)',
           hover:   'rgb(var(--color-primary-hover) / <alpha-value>)',

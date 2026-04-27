@@ -185,25 +185,30 @@ export default function DashboardPage() {
       {/* ── KPI grid ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {kpis.map(kpi => (
-          <Link key={kpi.label} href={kpi.href}>
-            <Card variant="glass" padding="md" className="hover:-translate-y-0.5 transition-all duration-200 cursor-pointer h-full">
-              <div className="flex items-start justify-between mb-3">
-                <div className={`w-9 h-9 rounded-xl bg-primary-subtle flex items-center justify-center shrink-0 ${kpi.iconColor}`}>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={kpi.icon} />
-                  </svg>
+          <Link key={kpi.label} href={kpi.href} className="group">
+            <div className="relative rounded-2xl p-px bg-gradient-to-br from-white/50 via-white/20 to-white/5 dark:from-white/12 dark:via-white/5 dark:to-transparent shadow-soft hover:shadow-soft-lg transition-all duration-300 hover:-translate-y-0.5 cursor-pointer h-full">
+              <div className="relative rounded-[15px] bg-white/60 dark:bg-slate-900/65 backdrop-blur-xl overflow-hidden p-5 h-full">
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 dark:via-white/20 to-transparent pointer-events-none" />
+                <div className="flex items-start justify-between mb-3">
+                  <div className={`w-9 h-9 rounded-xl bg-primary-subtle flex items-center justify-center shrink-0 ${kpi.iconColor}`}>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={kpi.icon} />
+                    </svg>
+                  </div>
                 </div>
+                <p className="text-2xl font-bold text-fg">{kpi.value}</p>
+                <p className="text-xs text-fg-muted mt-0.5 font-medium">{kpi.label}</p>
               </div>
-              <p className="text-2xl font-bold text-fg">{kpi.value}</p>
-              <p className="text-xs text-fg-muted mt-0.5 font-medium">{kpi.label}</p>
-            </Card>
+            </div>
           </Link>
         ))}
       </div>
 
       {/* ── Level + Quick actions ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-        <Card variant="glass" padding="md">
+        <div className="relative rounded-2xl p-px bg-gradient-to-br from-white/50 via-white/20 to-white/5 dark:from-white/12 dark:via-white/5 dark:to-transparent shadow-soft">
+          <div className="relative rounded-[15px] bg-white/60 dark:bg-slate-900/65 backdrop-blur-xl overflow-hidden p-5 h-full">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 dark:via-white/20 to-transparent pointer-events-none" />
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-semibold text-fg">{t('levelProgress')}</p>
             <Link href="/profile" className="text-xs text-primary font-medium hover:text-primary-hover transition-colors">
@@ -234,9 +239,12 @@ export default function DashboardPage() {
           ) : (
             <p className="text-xs text-primary font-semibold">{t('maxLevel')}</p>
           )}
-        </Card>
+          </div>
+        </div>
 
-        <Card variant="glass" padding="md">
+        <div className="relative rounded-2xl p-px bg-gradient-to-br from-white/50 via-white/20 to-white/5 dark:from-white/12 dark:via-white/5 dark:to-transparent shadow-soft">
+          <div className="relative rounded-[15px] bg-white/60 dark:bg-slate-900/65 backdrop-blur-xl overflow-hidden p-5 h-full">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 dark:via-white/20 to-transparent pointer-events-none" />
           <p className="text-sm font-semibold text-fg mb-4">{t('quickActions')}</p>
           <div className="space-y-2">
             {quickActions.map(action => (
@@ -258,7 +266,8 @@ export default function DashboardPage() {
               </Link>
             ))}
           </div>
-        </Card>
+          </div>
+        </div>
       </div>
 
       {/* ── Joined marketplaces ── */}
@@ -274,16 +283,19 @@ export default function DashboardPage() {
             {joinedMarketplaces.slice(0, 6).map(m => {
               const colors = categoryColor[m.category] ?? 'from-card-raised to-card-raised text-fg-muted'
               return (
-                <Card key={m.id} variant="glass" padding="md" className="flex items-center gap-3">
-                  <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${colors} flex items-center justify-center text-sm font-bold shrink-0`}>
-                    {m.name.charAt(0)}
+                <div key={m.id} className="relative rounded-2xl p-px bg-gradient-to-br from-white/50 via-white/20 to-white/5 dark:from-white/12 dark:via-white/5 dark:to-transparent shadow-soft">
+                  <div className="relative rounded-[15px] bg-white/60 dark:bg-slate-900/65 backdrop-blur-xl overflow-hidden p-4 flex items-center gap-3">
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 dark:via-white/20 to-transparent pointer-events-none" />
+                    <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${colors} flex items-center justify-center text-sm font-bold shrink-0`}>
+                      {m.name.charAt(0)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-fg truncate">{m.name}</p>
+                      <p className="text-xs text-fg-muted">{m.category}</p>
+                    </div>
+                    <Badge variant="success" className="shrink-0">{tc('joined')}</Badge>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-fg truncate">{m.name}</p>
-                    <p className="text-xs text-fg-muted">{m.category}</p>
-                  </div>
-                  <Badge variant="success" className="shrink-0">{tc('joined')}</Badge>
-                </Card>
+                </div>
               )
             })}
           </div>

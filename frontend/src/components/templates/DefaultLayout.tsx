@@ -1,4 +1,5 @@
 import { Header } from '@/components/organisms/Header'
+import { PageTransition } from '@/components/atoms/PageTransition'
 
 interface Props {
   children: React.ReactNode
@@ -10,7 +11,7 @@ export function DefaultLayout({ children, className = '' }: Props) {
     <div className="min-h-screen bg-background">
       <Header />
       <main className={`max-w-6xl mx-auto px-4 sm:px-6 pb-16 ${className}`}>
-        {children}
+        <PageTransition>{children}</PageTransition>
       </main>
     </div>
   )

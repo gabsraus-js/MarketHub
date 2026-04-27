@@ -1,5 +1,6 @@
 'use client'
 
+import { motion, type Variants } from 'motion/react'
 import { Card } from '@/components/atoms/Card'
 import { MarketplaceCard } from '@/components/molecules/MarketplaceCard'
 import type { Marketplace } from '@/types'
@@ -34,6 +35,20 @@ function SkeletonCard() {
   )
 }
 
+const container: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.06,
+    },
+  },
+}
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.28, ease: 'easeOut' } },
+}
+
 export function MarketplaceGrid({ marketplaces, joinedIds = new Set(), onJoin, onLeave, loading = false }: Props) {
   if (loading) {
     return (
@@ -58,16 +73,22 @@ export function MarketplaceGrid({ marketplaces, joinedIds = new Set(), onJoin, o
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <motion.div
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+      variants={container}
+      initial="hidden"
+      animate="show"
+    >
       {marketplaces.map(marketplace => (
-        <MarketplaceCard
-          key={marketplace.id}
-          marketplace={marketplace}
-          isJoined={joinedIds.has(marketplace.id)}
-          onJoin={onJoin}
-          onLeave={onLeave}
-        />
+        <motion.div key={marketplace.id} variants={item}>
+          <MarketplaceCard
+            marketplace={marketplace}
+            isJoined={joinedIds.has(marketplace.id)}
+            onJoin={onJoin}
+            onLeave={onLeave}
+          />
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   )
 }

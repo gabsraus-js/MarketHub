@@ -13,10 +13,14 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const variants: Record<Variant, string> = {
   glass: [
-    'bg-white/60 dark:bg-slate-900/50',
-    'backdrop-blur-md',
-    'border border-white/50 dark:border-white/10',
+    'relative overflow-hidden',
+    'bg-white/55 dark:bg-slate-900/60',
+    'backdrop-blur-xl',
+    'border border-white/60 dark:border-white/10',
     'shadow-soft-md',
+    'before:absolute before:inset-x-0 before:top-0 before:h-px before:pointer-events-none before:z-10',
+    'before:bg-gradient-to-r before:from-transparent before:via-white/80 before:to-transparent',
+    'dark:before:via-white/20',
   ].join(' '),
   solid: 'bg-card border border-border shadow-soft',
   raised: 'bg-card-raised border border-border-subtle shadow-soft-md',
