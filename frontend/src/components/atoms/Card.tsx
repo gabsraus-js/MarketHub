@@ -21,9 +21,10 @@ const variants: Record<Variant, string> = {
     'before:absolute before:inset-x-0 before:top-0 before:h-px before:pointer-events-none before:z-10',
     'before:bg-gradient-to-r before:from-transparent before:via-white/80 before:to-transparent',
     'dark:before:via-white/20',
+    'neuro:bg-background neuro:backdrop-blur-none neuro:border-transparent neuro:shadow-neuro neuro:before:hidden',
   ].join(' '),
-  solid: 'bg-card border border-border shadow-soft',
-  raised: 'bg-card-raised border border-border-subtle shadow-soft-md',
+  solid: 'bg-card border border-border shadow-soft neuro:shadow-neuro neuro:border-transparent',
+  raised: 'bg-card-raised border border-border-subtle shadow-soft-md neuro:shadow-neuro neuro:border-transparent',
 }
 
 const paddings: Record<Padding, string> = {

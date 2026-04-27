@@ -91,7 +91,13 @@
       "marketplaces": "Marketplaces",
       "products": "Products",
       "achievements": "Achievements"
-    }
+    },
+    "visualStyle": "Visual Style",
+    "visualStyleDesc": "Choose how the interface looks",
+    "styleGlassLabel": "Liquid Glass",
+    "styleGlassDesc": "Frosted blur, gradient borders, shimmer accents",
+    "styleNeuroLabel": "Neumorphism",
+    "styleNeuroDesc": "Extruded soft shadows, solid surfaces, no blur"
   },
   "productForm": {
     "newTitle": "New Product",

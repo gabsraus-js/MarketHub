@@ -364,7 +364,7 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
               onChange={e => setDescription(e.target.value)}
               placeholder={t('descriptionPlaceholder')}
               rows={3}
-              className="w-full rounded-xl border border-border bg-white/60 dark:bg-white/5 backdrop-blur-sm px-4 py-2.5 text-sm text-fg placeholder-fg-subtle focus:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/10 transition-all resize-none"
+              className="w-full rounded-xl px-4 py-2.5 text-sm text-fg placeholder-fg-subtle bg-white/60 dark:bg-slate-900/50 border border-white/70 dark:border-white/10 backdrop-blur-sm shadow-soft focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary/50 focus:bg-white/80 dark:focus:bg-slate-900/70 transition-all duration-150 resize-none"
             />
           </div>
 

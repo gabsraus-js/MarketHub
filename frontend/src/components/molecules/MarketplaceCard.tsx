@@ -60,12 +60,12 @@ export function MarketplaceCard({ marketplace, isJoined = false, onJoin, onLeave
   return (
     <motion.div
       whileHover={{ y: -2, transition: { duration: 0.18, ease: 'easeOut' } }}
-      className="group relative rounded-2xl p-px bg-gradient-to-br from-white/50 via-white/20 to-white/5 dark:from-white/12 dark:via-white/5 dark:to-transparent shadow-soft hover:shadow-soft-lg transition-shadow duration-300"
+      className="group relative rounded-2xl p-px bg-gradient-to-br from-white/50 via-white/20 to-white/5 dark:from-white/12 dark:via-white/5 dark:to-transparent shadow-soft hover:shadow-soft-lg transition-shadow duration-300 neuro:bg-background neuro:p-0 neuro:shadow-neuro neuro:hover:shadow-neuro"
     >
-      <div className="relative rounded-[15px] bg-white/60 dark:bg-slate-900/65 backdrop-blur-xl overflow-hidden flex flex-col gap-4 p-5 h-full">
+      <div className="relative rounded-[15px] bg-white/60 dark:bg-slate-900/65 backdrop-blur-xl overflow-hidden flex flex-col gap-4 p-5 h-full neuro:bg-transparent neuro:backdrop-blur-none neuro:rounded-2xl">
 
         {/* top shimmer line */}
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 dark:via-white/20 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 dark:via-white/20 to-transparent pointer-events-none neuro:hidden" />
 
         <div className="flex items-start gap-3">
           <div

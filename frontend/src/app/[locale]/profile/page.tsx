@@ -7,6 +7,8 @@ import { ProfileHeader } from '@/components/organisms/ProfileHeader'
 import { Card } from '@/components/atoms/Card'
 import { api } from '@/lib/api'
 import { mockUser } from '@/lib/mock-data'
+import { useUIStyle } from '@/lib/ui-style'
+import type { UIStyle } from '@/lib/ui-style'
 import type { User, Product } from '@/types'
 
 const DEMO_USER_ID = 'demo-user'
@@ -133,6 +135,67 @@ const ACHIEVEMENTS: AchievementDef[] = [
     check: s => s.daysActive >= 30,
   },
 ]
+
+function UIStyleSwitcher() {
+  const t = useTranslations('profile')
+  const { style, setStyle } = useUIStyle()
+
+  const options: { id: UIStyle; label: string; desc: string }[] = [
+    { id: 'liquidglass', label: t('styleGlassLabel'), desc: t('styleGlassDesc') },
+    { id: 'neumorphism', label: t('styleNeuroLabel'), desc: t('styleNeuroDesc') },
+  ]
+
+  return (
+    <div>
+      <h2 className="text-xl font-bold text-fg mb-1">{t('visualStyle')}</h2>
+      <p className="text-sm text-fg-muted mb-4">{t('visualStyleDesc')}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {options.map(opt => {
+          const active = style === opt.id
+          return (
+            <button
+              key={opt.id}
+              onClick={() => setStyle(opt.id)}
+              className={`text-left p-5 rounded-2xl border-2 transition-all duration-200 ${
+                active
+                  ? 'border-primary bg-primary-subtle/60 shadow-soft-md'
+                  : 'border-border-subtle bg-card hover:border-primary/40 hover:shadow-soft'
+              }`}
+            >
+              <div className="mb-3 h-16 rounded-xl bg-background border border-border-subtle flex items-center justify-center">
+                {opt.id === 'liquidglass' ? (
+                  <div className="w-20 h-10 rounded-lg bg-white/50 backdrop-blur-sm border border-white/60 shadow-soft flex items-center justify-center">
+                    <div className="w-8 h-1.5 rounded-full bg-primary/50" />
+                  </div>
+                ) : (
+                  <div
+                    className="w-20 h-10 rounded-lg bg-background flex items-center justify-center"
+                    style={{ boxShadow: '4px 4px 10px rgba(0,0,0,0.10), -4px -4px 10px rgba(255,255,255,0.80)' }}
+                  >
+                    <div className="w-8 h-1.5 rounded-full bg-primary/50" />
+                  </div>
+                )}
+              </div>
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <p className="text-sm font-semibold text-fg">{opt.label}</p>
+                  <p className="text-xs text-fg-muted mt-0.5 leading-relaxed">{opt.desc}</p>
+                </div>
+                {active && (
+                  <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0 mt-0.5">
+                    <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                )}
+              </div>
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
 
 function LevelCard({ xp, progress, current, next, progressXP, rangeXP }: ReturnType<typeof getLevelInfo>) {
   const t = useTranslations('profile')
@@ -374,6 +437,8 @@ export default function ProfilePage() {
             </Card>
           ))}
         </div>
+
+        <UIStyleSwitcher />
 
         <div>
           <div className="flex items-center justify-between mb-4">

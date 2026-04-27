@@ -25,12 +25,20 @@ export function Input({ label, error, icon, className = '', id, ...props }: Inpu
         <input
           id={inputId}
           className={[
-            'w-full rounded-xl border bg-card px-4 py-2.5 text-sm text-fg placeholder-fg-subtle',
-            'shadow-soft',
-            'focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20',
-            'disabled:bg-background disabled:text-fg-subtle',
+            'w-full rounded-xl px-4 py-2.5 text-sm text-fg placeholder-fg-subtle',
+            'bg-white/60 dark:bg-slate-900/50',
+            'border border-white/70 dark:border-white/10',
+            'backdrop-blur-sm shadow-soft',
+            'transition-all duration-150',
+            'focus:outline-none focus:ring-2 focus:ring-primary/25',
+            'focus:border-primary/50 focus:bg-white/80 dark:focus:bg-slate-900/70',
+            'disabled:opacity-50 disabled:cursor-not-allowed',
+            'neuro:bg-background neuro:backdrop-blur-none neuro:border-transparent neuro:shadow-neuro-inset',
+            'neuro:focus:ring-0 neuro:focus:border-transparent neuro:focus:bg-background neuro:focus:shadow-neuro-inset',
             icon ? 'pl-10' : '',
-            error ? 'border-red-300 focus:border-red-400 focus:ring-red-100' : 'border-border',
+            error
+              ? 'border-red-400/60 focus:border-red-400 focus:ring-red-400/20'
+              : '',
             className,
           ]
             .filter(Boolean)

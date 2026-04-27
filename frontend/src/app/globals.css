@@ -39,6 +39,18 @@
   body {
     @apply bg-background text-fg antialiased;
   }
+
+  :root {
+    --shadow-neuro:       6px 6px 14px rgba(0,0,0,0.10), -6px -6px 14px rgba(255,255,255,0.85);
+    --shadow-neuro-sm:    3px 3px 8px rgba(0,0,0,0.08),  -3px -3px 8px rgba(255,255,255,0.80);
+    --shadow-neuro-inset: inset 3px 3px 7px rgba(0,0,0,0.09), inset -3px -3px 7px rgba(255,255,255,0.75);
+  }
+
+  .dark {
+    --shadow-neuro:       5px 5px 12px rgba(0,0,0,0.45), -5px -5px 12px rgba(255,255,255,0.04);
+    --shadow-neuro-sm:    3px 3px 7px rgba(0,0,0,0.40),  -3px -3px 7px rgba(255,255,255,0.03);
+    --shadow-neuro-inset: inset 3px 3px 7px rgba(0,0,0,0.45), inset -3px -3px 7px rgba(255,255,255,0.04);
+  }
 }
 
 @layer utilities {

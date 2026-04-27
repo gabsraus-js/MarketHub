@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import plugin from 'tailwindcss/plugin'
 
 const config: Config = {
   darkMode: 'class',
@@ -38,10 +39,17 @@ const config: Config = {
         soft:    '0 2px 8px 0 rgba(0,0,0,0.06)',
         'soft-md': '0 4px 16px 0 rgba(0,0,0,0.08)',
         'soft-lg': '0 8px 32px 0 rgba(0,0,0,0.10)',
+        'neuro':       'var(--shadow-neuro)',
+        'neuro-sm':    'var(--shadow-neuro-sm)',
+        'neuro-inset': 'var(--shadow-neuro-inset)',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addVariant }) => {
+      addVariant('neuro', '[data-ui-style="neumorphism"] &')
+    }),
+  ],
 }
 
 export default config

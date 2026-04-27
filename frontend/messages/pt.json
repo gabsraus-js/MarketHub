@@ -91,7 +91,13 @@
       "marketplaces": "Marketplaces",
       "products": "Produtos",
       "achievements": "Conquistas"
-    }
+    },
+    "visualStyle": "Estilo Visual",
+    "visualStyleDesc": "Escolha como a interface aparece",
+    "styleGlassLabel": "Liquid Glass",
+    "styleGlassDesc": "Blur fosco, bordas gradientes, reflexos shimmer",
+    "styleNeuroLabel": "Neumorfismo",
+    "styleNeuroDesc": "Sombras suaves extrudadas, superfícies sólidas, sem blur"
   },
   "productForm": {
     "newTitle": "Novo Produto",

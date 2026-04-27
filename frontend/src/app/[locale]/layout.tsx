@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { ThemeProvider } from '@/components/ThemeProvider'
+import { UIStyleProvider } from '@/lib/ui-style'
 import { routing } from '@/i18n/routing'
 import '../globals.css'
 
@@ -37,7 +38,9 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body className={`${inter.variable} font-sans`}>
         <NextIntlClientProvider messages={messages}>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <UIStyleProvider>{children}</UIStyleProvider>
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>
