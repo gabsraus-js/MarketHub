@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import sys,json; p=json.load\\(sys.stdin\\); print\\(p.get\\('version'\\), p.get\\('main'\\)\\)\")",
+      "Bash(ls \"C:\\\\\\\\TI Definitive\\\\\\\\marketplaces-gatherer\\\\\\\\backend\\\\\\\\node_modules\\\\\\\\\")",
+      "PowerShell(\\(Get-Content \"C:\\\\TI Definitive\\\\marketplaces-gatherer\\\\node_modules\\\\multer\\\\package.json\" -Raw\\) | ConvertFrom-Json | Select-Object main, exports, module, version)",
+      "Bash(node_modules/.bin/tsc --noEmit)",
+      "Bash(node node_modules/.bin/tsc --noEmit --project backend/tsconfig.json)",
+      "Bash(node \"node_modules/typescript/bin/tsc\" --noEmit --project backend/tsconfig.json)",
+      "Bash(timeout 5 node node_modules/.bin/ts-node backend/src/app.ts)",
+      "Bash(timeout 5 node \"node_modules/ts-node/dist/bin.js\" --project backend/tsconfig.json backend/src/app.ts)",
+      "Bash(node \"node_modules/ts-node/dist/bin.js\" --project backend/tsconfig.json backend/src/app.ts)",
+      "Bash(curl -s http://localhost:3001/api/marketplaces)",
+      "Bash(base64 -d curl -s -X POST http://localhost:3001/api/upload -F \"file=@/tmp/test.png\")",
+      "Bash(curl *)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('images:', d.get\\('images'\\)\\); print\\('id:', d.get\\('id'\\)\\)\")"
+    ]
+  }
+}

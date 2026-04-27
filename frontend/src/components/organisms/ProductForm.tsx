@@ -186,6 +186,7 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
   const [basePrice, setBasePrice] = useState('')
   const [saving, setSaving] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [uploadError, setUploadError] = useState<string | null>(null)
 
   useEffect(() => {
     // Init images from existing product
@@ -268,8 +269,10 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
     const errs = validate()
     if (Object.keys(errs).length > 0) { setErrors(errs); return }
     setSaving(true)
+    setUploadError(null)
     try {
       // Upload any new images first
+      let uploadFailed = false
       const imageUrls = (
         await Promise.all(
           images.map(async img => {
@@ -278,6 +281,7 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
                 const { url } = await api.upload(img.file)
                 return url
               } catch {
+                uploadFailed = true
                 return null
               }
             }
@@ -285,6 +289,10 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
           })
         )
       ).filter((u): u is string => u !== null)
+
+      if (uploadFailed) {
+        setUploadError('Some images failed to upload. Make sure the backend server is running.')
+      }
 
       await onSave({
         name: name.trim(),
@@ -328,6 +336,9 @@ export function ProductForm({ marketplaces, product, onSave, onClose }: Props) {
         <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
           {/* Photos */}
           <ImageUpload images={images} onChange={setImages} />
+          {uploadError && (
+            <p className="text-xs text-red-500 -mt-3">{uploadError}</p>
+          )}
 
           {/* Name */}
           <Input
