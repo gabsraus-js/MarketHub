@@ -1,3 +1,5 @@
+import { Card } from '@/components/atoms/Card'
+
 interface StatCardProps {
   label: string
   value: string | number
@@ -8,7 +10,7 @@ interface StatCardProps {
 
 export function StatCard({ label, value, icon, trend, className = '' }: StatCardProps) {
   return (
-    <div className={`bg-card rounded-2xl border border-border-subtle shadow-soft p-5 ${className}`}>
+    <Card variant="glass" padding="md" className={className}>
       <div className="flex items-start justify-between">
         <div>
           <p className="text-xs font-medium text-fg-subtle uppercase tracking-wider">{label}</p>
@@ -21,6 +23,6 @@ export function StatCard({ label, value, icon, trend, className = '' }: StatCard
           </div>
         )}
       </div>
-    </div>
+    </Card>
   )
 }

@@ -5,6 +5,7 @@ import { DefaultLayout } from '@/components/templates/DefaultLayout'
 import { ProductCard } from '@/components/molecules/ProductCard'
 import { ProductForm } from '@/components/organisms/ProductForm'
 import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
 import { api } from '@/lib/api'
 import { mockMarketplaces } from '@/lib/mock-data'
 import type { Product, Marketplace, ProductPayload, ProductListingPayload } from '@/types'
@@ -13,21 +14,21 @@ const DEMO_USER_ID = 'demo-user'
 
 function SkeletonCard() {
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-soft overflow-hidden animate-pulse">
-      <div className="h-36 bg-slate-100" />
-      <div className="p-5">
-        <div className="flex items-start gap-3 mb-4">
+    <Card variant="glass" padding="none" className="overflow-hidden animate-pulse">
+      <div className="h-36 bg-border-subtle" />
+      <div className="p-5 space-y-4">
+        <div className="flex items-start gap-3">
           <div className="flex-1 space-y-2">
-            <div className="h-4 bg-slate-100 rounded-lg w-2/3" />
-            <div className="h-3 bg-slate-100 rounded-lg w-full" />
+            <div className="h-4 bg-border-subtle rounded-lg w-2/3" />
+            <div className="h-3 bg-border-subtle rounded-lg w-full" />
           </div>
         </div>
-        <div className="border-t border-slate-50 pt-3 flex gap-2">
-          <div className="h-6 bg-slate-100 rounded-lg w-28" />
-          <div className="h-6 bg-slate-100 rounded-lg w-24" />
+        <div className="border-t border-border-subtle pt-3 flex gap-2">
+          <div className="h-6 bg-border-subtle rounded-lg w-28" />
+          <div className="h-6 bg-border-subtle rounded-lg w-24" />
         </div>
       </div>
-    </div>
+    </Card>
   )
 }
 
@@ -56,20 +57,9 @@ export default function ProductsPage() {
     load()
   }, [])
 
-  const openCreate = () => {
-    setEditingProduct(undefined)
-    setFormOpen(true)
-  }
-
-  const openEdit = (product: Product) => {
-    setEditingProduct(product)
-    setFormOpen(true)
-  }
-
-  const closeForm = () => {
-    setFormOpen(false)
-    setEditingProduct(undefined)
-  }
+  const openCreate = () => { setEditingProduct(undefined); setFormOpen(true) }
+  const openEdit = (product: Product) => { setEditingProduct(product); setFormOpen(true) }
+  const closeForm = () => { setFormOpen(false); setEditingProduct(undefined) }
 
   const handleSave = async (data: ProductPayload) => {
     if (editingProduct) {
@@ -127,64 +117,80 @@ export default function ProductsPage() {
   }
 
   const handleDelete = async (id: string) => {
-    try {
-      await api.products.delete(id)
-    } catch { /* offline */ }
+    try { await api.products.delete(id) } catch { /* offline */ }
     setProducts(prev => prev.filter(p => p.id !== id))
   }
 
+  const totalListings = products.reduce((sum, p) => sum + p.listings.length, 0)
+  const coveredMarkets = new Set(products.flatMap(p => p.listings.map(l => l.marketplaceId))).size
+
   return (
     <DefaultLayout>
-      {/* Page header */}
-      <div className="py-8 flex items-end justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">Products</h1>
-          <p className="text-slate-400 mt-1">Register your products and set prices across marketplaces</p>
+      {/* ── Hero ── */}
+      <section className="relative py-16 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none select-none" aria-hidden>
+          <div className="absolute -top-10 right-1/3 w-80 h-80 bg-violet-100 dark:bg-violet-900/20 rounded-full blur-3xl opacity-50 dark:opacity-20" />
+          <div className="absolute top-6 left-1/4 w-64 h-64 bg-primary-subtle rounded-full blur-3xl opacity-60 dark:opacity-25" />
+          <div className="absolute bottom-0 right-0 w-48 h-48 bg-indigo-100 dark:bg-indigo-900/20 rounded-full blur-3xl opacity-40 dark:opacity-20" />
         </div>
-        <Button onClick={openCreate} size="md">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          New Product
-        </Button>
-      </div>
 
-      {/* Stats bar */}
+        <div className="relative flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/60 dark:border-white/10 rounded-full px-4 py-1.5 text-xs font-medium text-fg-muted mb-5 shadow-soft">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              {loading ? '—' : `${products.length} product${products.length !== 1 ? 's' : ''} registered`}
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-bold text-fg tracking-tight leading-[1.1] mb-3">
+              Your{' '}
+              <span className="gradient-text">Products</span>
+            </h1>
+            <p className="text-base text-fg-muted">
+              Register products and set prices across marketplaces
+            </p>
+          </div>
+
+          <Button onClick={openCreate} size="lg" className="shrink-0">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            New Product
+          </Button>
+        </div>
+      </section>
+
+      {/* ── Stats bar ── */}
       {!loading && products.length > 0 && (
-        <div className="flex items-center gap-4 mb-6 pb-5 border-b border-slate-100">
-          <span className="text-sm text-slate-500">
-            <span className="font-semibold text-slate-900">{products.length}</span>{' '}
-            product{products.length !== 1 ? 's' : ''}
-          </span>
-          <span className="text-sm text-slate-500">
-            <span className="font-semibold text-slate-900">
-              {products.reduce((sum, p) => sum + p.listings.length, 0)}
-            </span>{' '}
-            total listings
-          </span>
-          <span className="text-sm text-slate-500">
-            <span className="font-semibold text-slate-900">
-              {new Set(products.flatMap(p => p.listings.map(l => l.marketplaceId))).size}
-            </span>{' '}
-            marketplaces covered
-          </span>
+        <div className="flex items-center gap-3 mb-6 flex-wrap">
+          {[
+            { label: 'Products', value: products.length },
+            { label: 'Total listings', value: totalListings },
+            { label: 'Markets covered', value: coveredMarkets },
+          ].map(stat => (
+            <div
+              key={stat.label}
+              className="flex items-center gap-2 bg-white/60 dark:bg-slate-900/50 backdrop-blur-sm border border-white/50 dark:border-white/10 rounded-xl px-3 py-1.5 shadow-soft"
+            >
+              <span className="text-sm font-bold text-fg">{stat.value}</span>
+              <span className="text-xs text-fg-muted">{stat.label}</span>
+            </div>
+          ))}
         </div>
       )}
 
-      {/* Content */}
+      {/* ── Content ── */}
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)}
         </div>
       ) : products.length === 0 ? (
-        <div className="text-center py-24 bg-white rounded-2xl border border-slate-100 shadow-soft">
-          <div className="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto mb-5">
-            <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <Card variant="glass" padding="none" className="text-center py-24">
+          <div className="w-16 h-16 rounded-2xl bg-border-subtle flex items-center justify-center mx-auto mb-5">
+            <svg className="w-8 h-8 text-fg-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
             </svg>
           </div>
-          <h3 className="font-semibold text-slate-900 mb-1">No products yet</h3>
-          <p className="text-sm text-slate-400 max-w-xs mx-auto mb-6">
+          <h3 className="font-semibold text-fg mb-1">No products yet</h3>
+          <p className="text-sm text-fg-muted max-w-xs mx-auto mb-6">
             Create your first product and list it across marketplaces with custom prices.
           </p>
           <Button onClick={openCreate} size="md">
@@ -193,7 +199,7 @@ export default function ProductsPage() {
             </svg>
             Create your first product
           </Button>
-        </div>
+        </Card>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {products.map(product => (
@@ -207,7 +213,6 @@ export default function ProductsPage() {
         </div>
       )}
 
-      {/* Form modal */}
       {formOpen && (
         <ProductForm
           marketplaces={marketplaces}

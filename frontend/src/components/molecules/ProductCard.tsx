@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
 import { BACKEND_URL } from '@/lib/api'
 import type { Product, ProductImage } from '@/types'
 

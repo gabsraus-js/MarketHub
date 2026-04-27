@@ -6,7 +6,7 @@ import { Avatar } from '@/components/atoms/Avatar'
 import { useTheme } from '@/components/ThemeProvider'
 
 const navItems = [
-  { label: 'Home', href: '/' },
+  { label: 'Dashboard', href: '/' },
   { label: 'Marketplaces', href: '/marketplaces' },
   { label: 'Products', href: '/products' },
   { label: 'Profile', href: '/profile' },

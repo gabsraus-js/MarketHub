@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Badge } from '@/components/atoms/Badge'
 import { Button } from '@/components/atoms/Button'
+import { Card } from '@/components/atoms/Card'
 import type { Marketplace } from '@/types'
 
 interface Props {
@@ -55,7 +56,7 @@ export function MarketplaceCard({ marketplace, isJoined = false, onJoin, onLeave
   const iconColors = categoryColor[marketplace.category] ?? 'from-card-raised to-card-raised text-fg-muted'
 
   return (
-    <div className="group bg-card rounded-2xl border border-border-subtle shadow-soft hover:shadow-soft-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col gap-4">
+    <Card variant="glass" padding="md" className="group flex flex-col gap-4 hover:-translate-y-0.5 transition-all duration-200">
       <div className="flex items-start gap-3">
         <div
           className={`w-11 h-11 rounded-xl bg-gradient-to-br ${iconColors} flex items-center justify-center text-lg font-bold shrink-0`}
@@ -90,6 +91,6 @@ export function MarketplaceCard({ marketplace, isJoined = false, onJoin, onLeave
           {joined ? 'Leave' : 'Join'}
         </Button>
       </div>
-    </div>
+    </Card>
   )
 }
